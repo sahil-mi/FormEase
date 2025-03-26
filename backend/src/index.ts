@@ -1,18 +1,23 @@
-// src/index.ts
-import express, { Express, Request, Response } from "express";
+/**
+|--------------------------------------------------
+| express configuration settings
+|--------------------------------------------------
+*/
+
+import express, { Express } from "express";
 import dotenv from "dotenv";
+import router from "./routes/router";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello world");
-});
-app.get("/index", (req: Request, res: Response) => {
-  res.json({ message: "index world" });
-});
+// Middleware to parse JSON
+app.use(express.json());
+
+// Use the router
+app.use(router);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
