@@ -18,5 +18,5 @@ const AuthUserSchema = new Schema(
 );
 
 const AuthUser =
-  mongoose.models.Todo || mongoose.model("AuthUser", AuthUserSchema);
+  mongoose.models.AuthUser || mongoose.model("AuthUser", AuthUserSchema);
 export default AuthUser;
