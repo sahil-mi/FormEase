@@ -15,7 +15,13 @@ export const VerifyAuthentication = (
   const access_token = get_token_from_bearer(headers.authorization || "");
 
   try {
-    var decoded = jwt.verify(access_token, "shhhhh");
+    const ACCESS_TOKEN_SECRET: string | undefined =
+      process.env.ACCESS_TOKEN_SECRET;
+
+    if (!ACCESS_TOKEN_SECRET) {
+      throw new Error("token not found in the env");
+    }
+    var decoded = jwt.verify(access_token, ACCESS_TOKEN_SECRET);
     Next();
   } catch (err: any) {
     const errorMessage = err.message || "Invalid token";

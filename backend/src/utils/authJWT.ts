@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 // create new access and refresh token
-export const CreateJWT_Token = async (username: string) => {
+export const CreateJWT_Token = async (username: string,user_id:number) => {
   const ACCESS_TOKEN_SECRET: string | undefined =
     process.env.ACCESS_TOKEN_SECRET;
   const REFRESH_TOKEN_SECRET: string | undefined =
@@ -11,10 +11,10 @@ export const CreateJWT_Token = async (username: string) => {
     throw new Error("Token secrets not found in env");
   }
 
-  const access_token = jwt.sign({ username: username }, ACCESS_TOKEN_SECRET, {
+  const access_token = jwt.sign({ user_id:user_id,username: username }, ACCESS_TOKEN_SECRET, {
     expiresIn: 120,
   });
-  const refresh_token = jwt.sign({ username: username }, REFRESH_TOKEN_SECRET, {
+  const refresh_token = jwt.sign({ user_id:user_id,username: username }, REFRESH_TOKEN_SECRET, {
     expiresIn: "1h",
   });
 
@@ -39,14 +39,14 @@ export const RenewToken = (
       if (err) {
         return reject({ message: "Invalid or expired refresh token" });
       }
-      const { username } = data as { username: string };
+      const { username,user_id } = data as { username: string,user_id:number };
       if (!username) {
         reject({ message: "Invalid token payload" });
       }
       try {
         if (username) {
           const { access_token, refresh_token } = await CreateJWT_Token(
-            username
+            username,user_id
           );
           resolve({ access_token, refresh_token });
         }

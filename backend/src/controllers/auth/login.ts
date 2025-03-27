@@ -14,7 +14,7 @@ const Login = async (req: Request, res: Response, Next: NextFunction) => {
     if (user) {
       const is_password_valid = await CheckPassword(password, user.password);
       if (is_password_valid) {
-        const { access_token, refresh_token } = await CreateJWT_Token(username);
+        const { access_token, refresh_token } = await CreateJWT_Token(username,user._id);
         res.json({
           message: "Login successfull",
           access: access_token,
