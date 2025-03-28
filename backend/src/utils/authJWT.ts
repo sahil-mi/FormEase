@@ -12,7 +12,7 @@ export const CreateJWT_Token = async (username: string,user_id:number) => {
   }
 
   const access_token = jwt.sign({ user_id:user_id,username: username }, ACCESS_TOKEN_SECRET, {
-    expiresIn: 120,
+    expiresIn: "1h",
   });
   const refresh_token = jwt.sign({ user_id:user_id,username: username }, REFRESH_TOKEN_SECRET, {
     expiresIn: "1h",

@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-
-const get_token_from_bearer = (token: string) => {
-  let new_token = token.replace("Bearer", "").trim();
-  return new_token;
-};
+import { get_token_from_bearer } from "../utils/utils";
 
 export const VerifyAuthentication = (
   req: Request,
